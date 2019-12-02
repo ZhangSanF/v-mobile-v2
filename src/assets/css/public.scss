@@ -1,0 +1,59 @@
+$public-header-background-color: #51a4fb;
+
+* {
+  font-family: "Microsoft Yahei", arial;
+}
+
+@function px2rem($px, $flag: true) {
+  //$flag => true 表示正数  反之 负数
+  $rem: 75px;
+  @if ($flag) {
+    @return ($px/$rem) + rem;
+  } @else {
+    @return -($px/$rem) + rem;
+  }
+}
+
+.public-header-background-color {
+  background-color: $public-header-background-color;
+  font-weight: 400;
+}
+
+.bet-img {
+  width: px2rem(44px);
+  height: px2rem(44px);
+  background-size: cover;
+}
+
+// vux reset style
+//.weui-toast{
+//    width: px2rem(122px) !important;
+//    min-height: px2rem(122px) !important;
+//}
+//
+//.weui-dialog{
+//    min-width: px2rem(300px);
+//    font-size: px2rem(16px);
+//}
+//
+//.vux-popup-dialog{
+//    font-size: px2rem(16px);
+//}
+//
+//.vux-header{
+//    font-size: px2rem(16px);
+//}
+//
+//.vux-1px-b{
+//    line-height: px2rem(45px);
+//}
+
+.weui-dialog,
+.weui-toast {
+  font-size: px2rem(24px) !important;
+}
+
+.weui-toast {
+  width: px2rem(260px) !important;
+}
+

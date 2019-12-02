@@ -1,0 +1,51 @@
+.row {
+  display: block;
+}
+
+.col-50 {
+  width: 49%;
+  display: inline-block;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+}
+
+#app {
+  height: 100%;
+}
+
+/* 兼容iPhoneX 底部 */
+/* @media only screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) {
+  .footer.row {
+    box-sizing: border-box !important;
+    bottom: 34px !important;
+    font-weight: bold;
+  }
+  .footer.row:after {
+    content: "";
+    z-index: 9998;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 34px !important;
+    background: #f7f7f8;
+  }
+  .bet-con {
+    padding-bottom: 34px !important;
+  }
+  .content .main {
+    padding-bottom: 34px !important;
+  }
+  .wrapper.game-content ,.orders-content,.scroll{
+    bottom: 34px !important;
+  }
+  .inner{
+    margin-bottom: 34px;
+  }
+} */
+
