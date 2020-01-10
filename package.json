@@ -13,7 +13,7 @@
     "axios": "^0.18.0",
     "better-scroll": "^1.12.0",
     "good-storage": "^1.1.0",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.13",
     "moment": "^2.24.0",
     "v-viewer": "^1.2.1",
     "vue": "^2.5.2",
