@@ -64,6 +64,43 @@ export function codeTimeStamp(seconds, code) {
   }
 }
 
+// 红包倒计时
+export function formatTimerCallback(second) {
+  if (second < 0) return 0;
+
+  let day = ~~(second / (24 * 60 * 60));
+  second = second - day * 24 * 60 * 60;
+  let hour = ~~(second / (60 * 60));
+  second = second - hour * 60 * 60;
+  let min = ~~(second / 60);
+  second = second - min * 60;
+  
+    // 天
+    if (day > 0) day = day + "";
+    else day = "";
+
+    // 小时
+    if (hour > 0) hour = hour ;
+    else hour = "00";
+
+    // 分钟
+    if (min < 10 && min > 0) {
+      min = "0" + min ;
+    } else if (min <= 0) {
+      min = "00";
+    } else {
+      min;
+    }
+    // 秒
+    if (second < 10) second = "0" + second;
+    return {
+      day:day,
+      hour:hour,
+      min:min,
+      second:second
+    };
+}
+
 // 转换香港六合彩号码对应颜色样式
 export function hk6Color(code, num) {
   var codeClass = GAMES[code].class;
@@ -643,3 +680,15 @@ export function setCookie(c_name, value, expiredays) {
   let time = (expiredays == null) ? "" : "expires=" + exdate.toGMTString();
   document.cookie = name + ';' + path + ';' + time;
 };
+
+
+export const sscLocationToPlayKey = function(arr) {
+  arr = arr.sort((a, b) => {
+          return a - b
+        });
+  let res = '';
+  for(let i of arr){
+    res = res + (parseInt(i)+1);
+  }
+  return parseInt(res);
+}

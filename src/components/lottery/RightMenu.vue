@@ -7,14 +7,14 @@
     <div class="list">
       <ul>
         <li class="onlyShow">
-          <span class="icon iconfont">&#xe624;</span>
+          <span class="icon iconfont icon-weijiesuan"></span>
           <span class="text">
             账户余额
             <span class="moneyText">{{user.money}}</span>
           </span>
         </li>
         <li class="onlyShow">
-          <span class="icon iconfont">&#xe625;</span>
+          <span class="icon iconfont icon-jinrishuying"></span>
           <span class="text">
             今日输赢
             <span class="moneyText">{{user.winorlose}}</span>
@@ -22,35 +22,35 @@
         </li>
 
         <li @click="toPage('/user/reportdate')">
-          <span class="icon iconfont">&#xe626;</span>
+          <span class="icon iconfont icon-xiazhujilu"></span>
           <span class="text">历史报表</span>
         </li>
         <li @click="toPage(`/data?page=History&code=${code}`)">
-          <span class="icon iconfont">&#xe622;</span>
+          <span class="icon iconfont icon-kaijiangjieguo"></span>
           <span class="text">开奖结果</span>
         </li>
         <li @click="toPage(`/data?page=DraDew&code=${code}`)">
-          <span class="icon iconfont">&#xe61d;</span>
+          <span class="icon iconfont icon-kaijiangshuju"></span>
           <span class="text">露珠长龙</span>
         </li>
         <li @click="toPage(`/data?page=Rules&code=${code}`)">
-          <span class="icon iconfont">&#xe628;</span>
+          <span class="icon iconfont icon-youxiguize"></span>
           <span class="text">游戏规则</span>
         </li>
         <li @click="toPage('/preferential')">
-          <span class="icon iconfont">&#xe627;</span>
+          <span class="icon iconfont icon-youhuihuodong"></span>
           <span class="text">优惠活动</span>
         </li>
         <li @click="toPage('/user/setting')">
-          <span class="icon iconfont">&#xe623;</span>
+          <span class="icon iconfont icon-xitongshezhi"></span>
           <span class="text">系统设置</span>
         </li>
         <li @click="toPage('/home/main')">
-          <span class="icon iconfont">&#xe620;</span>
+          <span class="icon iconfont icon-fanhuishouye"></span>
           <span class="text">返回首页</span>
         </li>
         <li @click="doLogout">
-          <span class="icon iconfont">&#xe61f;</span>
+          <span class="icon iconfont icon-anquantuichu"></span>
           <span class="text">安全退出</span>
         </li>
       </ul>

@@ -4,25 +4,25 @@
     <div class="cards">
       <div class="cardItem" @click="toPage('/preferential')">
         <p class="iconContainer youhui">
-          <span class="iconfont">&#xe63a;</span>
+          <span class="iconfont icon-fuwudating_default"></span>
         </p>
         <p class="cardText">优惠大厅</p>
       </div>
       <div class="cardItem" @click="toPage('/home/games')">
         <p class="iconContainer games">
-          <span class="iconfont">&#xe637;</span>
+          <span class="iconfont icon-game_default"></span>
         </p>
         <p class="cardText">游戏大厅</p>
       </div>
       <div class="cardItem" @click="toPage('/user/reportdate')">
         <p class="iconContainer zoushi">
-          <span class="iconfont">&#xe618;</span>
+          <span class="iconfont icon-zhanghu_default"></span>
         </p>
         <p class="cardText">个人报表</p>
       </div>
       <div class="cardItem" @click="toPage('/user/Plan')">
         <p class="iconContainer plan">
-          <span class="iconfont">&#xe61d;</span>
+          <span class="iconfont icon-kaijiangshuju"></span>
         </p>
         <p class="cardText">专家计划</p>
       </div>
@@ -78,7 +78,10 @@
         if (this.announcement.length) {
           var res = [];
           for (var i = 0; i < this.announcement.length; i++) {
-            res.push(`${i + 1}. ${this.announcement[i].content}`);
+            this.announcement[i].data&& this.announcement[i].data.forEach((item,index)=>{
+              res.push(`${i+1}.${index+1}. ${item.content}`);
+            })
+            
           }
           return res.join("; ");
         }

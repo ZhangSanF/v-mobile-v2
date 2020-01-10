@@ -12,11 +12,19 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/all': {
-        target: 'https://www-master-dev.e2048.com',
+        target: 'http://chancian.viphk1.ngrok.org/',
         changeOrigin: true,
         secure: false,
         pathRewrite: {
           '^/all': '/all'
+        }
+      },
+      '/admin_static': {
+        target: 'http://chancian.viphk1.ngrok.org/',
+        changeOrigin: true,
+        secure: false,
+        pathRewrite: {
+          '^/admin_static': '/admin_static'
         }
       }
     },

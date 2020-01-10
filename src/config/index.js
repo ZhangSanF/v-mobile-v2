@@ -1,5 +1,4 @@
 
-
 // 同类型玩法
 
 const commonPlay = {
@@ -11,7 +10,7 @@ const commonPlay = {
 			play: ['lm', 'quick', 'n10', 'he'],
 			count: {
 				lm: { name: '两面', t: 1, lt: PlayType.BetNormal },
-        quick: { name: '快捷', t: 1, lt: PlayType.BetKuaijie },
+				quick: { name: '快捷', t: 1, lt: PlayType.BetKuaijie },
 				n10: { name: '单号1-10', t: 1, lt: PlayType.BetNormal },
 				he: { name: '冠亚军组合', t: 1, lt: PlayType.BetNormal }
 
@@ -21,10 +20,11 @@ const commonPlay = {
 
 	// 重庆时时彩
 	cqssc: function (name, isMorePlay = true, code) {
+		let isCTSSC = window.localStorage.getItem('ssc_display');
 		return {
 			name: name,
 			class: 'cqssc',
-			play: function (isMorePlay, code) {
+			play: function (isMorePlay, code, isCTSSC) {
 				let curPlay = ['ent', 'quick', 'b1', 'b2', 'b3', 'b4', 'b5'];
 				if (isMorePlay) {
 					curPlay.push('dma');
@@ -33,28 +33,48 @@ const commonPlay = {
 				if (code == 'cqssc' || code == 'jsssc') {
 					curPlay.push('dn');
 				}
+				if (isCTSSC == '2') {
+					curPlay = ['yffs', 'hscs', 'sxbx', 'sjfc', 'emdw', 'smdw', 'fourmdw', 'embdw', 'smbdw', 'helm', 'hesm', 'bz'];
+				}
 				return curPlay;
-			}(isMorePlay, code),
-			count: function (isMorePlay, code) {
+			}(isMorePlay, code,isCTSSC),
+			count: function (isMorePlay, code, isCTSSC) {
 				let curCount = {};
 				curCount = {
 					ent: { name: '整合', t: 1, lt: PlayType.BetNormal },
-          quick: { name: '快捷', t: 1, lt: PlayType.BetKuaijie },
+					quick: { name: '快捷', t: 1, lt: PlayType.BetKuaijie },
 					b1: { name: '第一球', t: 1, lt: PlayType.BetNormal },
 					b2: { name: '第二球', t: 1, lt: PlayType.BetNormal },
 					b3: { name: '第三球', t: 1, lt: PlayType.BetNormal },
 					b4: { name: '第四球', t: 1, lt: PlayType.BetNormal },
-					b5: { name: '第五球', t: 1, lt: PlayType.BetNormal },					
+					b5: { name: '第五球', t: 1, lt: PlayType.BetNormal },
 				};
+
 				if (isMorePlay) {
 					curCount['dma'] = { name: '单码', t: 6, lt: PlayType.BetDanma };
 					curCount['lma'] = { name: '连码', t: 2, lt: PlayType.BetLianma };
 				}
-				if (code == 'cqssc' || code == 'jsssc' || code =='hlssc') {
+				if (code == 'cqssc' || code == 'jsssc' || code == 'hlssc') {
 					curCount['dn'] = { name: '斗牛', t: 1, lt: PlayType.BetNormal }
 				}
+				if (isCTSSC == 2) {
+					curCount = {
+						yffs: { name: '一帆风顺', t: 10, lt: PlayType.BetCTSSC },
+						hscs: { name: '好事成双', t: 10, lt: PlayType.BetCTSSC },
+						sxbx: { name: '三星报喜', t: 10, lt: PlayType.BetCTSSC },
+						sjfc: { name: '四季发财', t: 10, lt: PlayType.BetCTSSC },
+						emdw: { name: '二码定位', t: 11, lt: PlayType.BetCTSSCDW },
+						smdw: { name: '三码定位', t: 13, lt: PlayType.BetCTSSCDW },
+						fourmdw: { name: '四码定位', t: 14, lt: PlayType.BetCTSSCDW },
+						embdw: { name: '二码不定位', t: 12, lt: PlayType.BetCTSSC },
+						smbdw: { name: '三码不定位', t: 12, lt: PlayType.BetCTSSC },
+						helm: { name: '总和组合双面', t: 1, lt: PlayType.BetNormal },
+						hesm: { name: '总和组合三面', t: 1, lt: PlayType.BetNormal },
+						bz: { name: '豹子', t: 10, lt: PlayType.BetCTSSC },
+					}
+				}
 				return curCount;
-			}(isMorePlay, code)
+			}(isMorePlay, code,isCTSSC)
 		}
 	},
 
@@ -64,7 +84,7 @@ const commonPlay = {
 		return {
 			name: name,
 			class: 'cqssc',
-			play: ['zhu','yzzh','ezzh','szzh','yzdw','ezdw','szdw','ezhs','szhs','zxsan','zxliu','kuadu'],
+			play: ['zhu', 'yzzh', 'ezzh', 'szzh', 'yzdw', 'ezdw', 'szdw', 'ezhs', 'szhs', 'zxsan', 'zxliu', 'kuadu'],
 			count: {
 				zhu: { name: '主势盘', t: 1, lt: PlayType.BetNormal },
 				yzzh: { name: '一字组合', t: 1, lt: PlayType.BetNormal },
@@ -114,7 +134,7 @@ const commonPlay = {
 			play: ['lm', 'quick', 'b1', 'b2', 'b3', 'b4', 'b5', 'b6', 'b7', 'b8', 'zma', 'lma'],
 			count: {
 				lm: { name: '两面', t: 1, lt: PlayType.BetNormal },
-        quick: { name: '快捷', t: 1, lt: PlayType.BetKuaijie },
+				quick: { name: '快捷', t: 1, lt: PlayType.BetKuaijie },
 				b1t8: { name: '1-8球', t: 1, lt: PlayType.BetNormal },
 				b1: { name: '第一球', t: 1, lt: PlayType.BetNormal },
 				b2: { name: '第二球', t: 1, lt: PlayType.BetNormal },
@@ -151,7 +171,7 @@ const commonPlay = {
 			play: ['lm', 'quick', 'dh', 'zix', 'lma'],
 			count: {
 				lm: { name: '两面', t: 1, lt: PlayType.BetNormal },
-        quick: { name: '快捷', t: 1, lt: PlayType.BetKuaijie },
+				quick: { name: '快捷', t: 1, lt: PlayType.BetKuaijie },
 				dh: { name: '单号', t: 1, lt: PlayType.BetNormal },
 				lma: { name: '连码', t: 2, lt: PlayType.BetLianma },
 				zix: { name: '直选', t: 5, lt: PlayType.BetZhix }
@@ -207,7 +227,7 @@ const commonPlay = {
 				zxbz: { name: '自选不中', t: 3, lt: PlayType.BetLianma }
 			}
 		}
-	}
+	},
 
 
 }
@@ -221,7 +241,9 @@ export const PlayType = {
 	BetLianma: 'BetLianma',
 	BetZhix: 'BetZhix',
 	BJLBet: 'BJLBet',
-	BetDwd:'BetDwd',
+	BetDwd: 'BetDwd',
+	BetCTSSC: 'BetCTSSC',
+	BetCTSSCDW: 'BetCTSSCDW',
 }
 
 //六合彩类彩种
@@ -251,8 +273,6 @@ export const GAMES = {
 
 	'azxy10': commonPlay.bjpk10('澳洲幸运10'),
 
-	'azxy5': commonPlay.cqssc('澳洲幸运5', false, 'azxy5'),
-
 	'hlsc': commonPlay.bjpk10('欢乐赛车'),
 
 	'pk10nn': commonPlay.pk10nn('PK10牛牛'),
@@ -266,6 +286,8 @@ export const GAMES = {
 	'hlft': commonPlay.bjpk10('欢乐飞艇'),
 
 	'jsft': commonPlay.bjpk10('极速飞艇'),
+
+	'azxy5': commonPlay.cqssc('澳洲幸运5', false, 'azxy5'),
 
 	'cqssc': commonPlay.cqssc('重庆时时彩', true, 'cqssc'),
 
@@ -319,6 +341,7 @@ export const GAMES = {
 	'hk6': commonPlay.hk6('香港六合彩'),
 
 	'xyhk6': commonPlay.hk6('幸运六合彩'),
+
 };
 
 

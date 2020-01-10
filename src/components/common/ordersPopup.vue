@@ -2,7 +2,7 @@
   <div class="orders-content">
     <h4>请确认详细注单</h4>
     <div class="orders-table-con">
-      <x-table :cell-bordered="false" style="background-color:#fff;" class="orders-table">
+      <table :cell-bordered="false" style="background-color:#fff;" class="orders-table">
         <thead>
           <tr>
             <th>号码</th>
@@ -11,27 +11,31 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(item, index) of betOrders" :key="index" v-if="betOrders.length">
-            <td>{{item.name}}</td>
-            <td class="oddsText">{{item.odds}}</td>
-            <td>
-              <input
-                class="orderMoney"
-                type="number"
-                :value="item.money"
-                @input="itemMoneyChanged($event, item)"
-              >
-              <x-icon type="ios-close" class="deleteBtn" size="20" @click="deleteOrder(item)"></x-icon>
-            </td>
-          </tr>
+          <virtual-list :size="40" :remain="6" :bench="25" class="virtual" ref="virtual">
+            <template v-for="(item, index) of betOrdersList">
+              <tr :key="index" v-if="index <1000">
+                <td>{{item.name}}</td>
+                <td class="oddsText">{{item.odds}}</td>
+                <td>
+                  <input
+                    class="orderMoney"
+                    type="number"
+                    v-model="item.money"
+                    @input="itemMoneyChanged($event, item)"
+                  />
+                  <x-icon type="ios-close" class="deleteBtn" size="20" @click="deleteOrder(item)"></x-icon>
+                </td>
+              </tr>
+            </template>
+          </virtual-list>
         </tbody>
-      </x-table>
+      </table>
     </div>
 
     <div class="orders-btns">
       <span class="bet-money orderItemMoney">
         单笔:
-        <input class="bet-input" type="tel" v-model="allMoney" @input="moneyChanged">元
+        <input class="bet-input" type="tel" v-model="allMoney" @input="moneyChanged" />元
       </span>
 
       <span class="bet-money">
@@ -58,10 +62,11 @@
 <script>
 import { mapGetters, mapState, mapActions } from "vuex";
 import { XTable, Loading, Toast, TransferDom } from "vux";
+import virtualList from "vue-virtual-scroll-list";
 
 export default {
   name: "ordersPopup",
-  components: { XTable, Loading, Toast },
+  components: { XTable, Loading, Toast, virtualList },
   directives: { TransferDom },
   data() {
     return {
@@ -71,16 +76,17 @@ export default {
       loadingText: "",
       toastText: "",
       toastType: "cancel",
-      ordersMoneyCount:0,
+      ordersMoneyCount: 0,
       toastPosition: "center",
       allMoney: "", //金额
       orderData: [], //生成的注单数据
-      planData: {} //计划传入的数据
+      planData: {}, //计划传入的数据
+      betOrdersList:[]
     };
   },
   computed: {
-    ...mapGetters(["openData", "betOrders"]),
-    ...mapState(["gameDataStore", "betMoney", "openResult"]),
+    ...mapGetters(["openData"]),
+    ...mapState(["gameDataStore", "betMoney", "openResult"])
   },
   mounted() {
     this.$nextTick(() => {});
@@ -89,12 +95,15 @@ export default {
     ...mapActions(["homeOrdersPlaceOrder"]),
 
     getOrdersMoneyCount() {
-      if (this.betOrders.length) {
+      if (this.betOrdersList.length) {
         var res = 0;
-        for (var i = 0; i < this.betOrders.length; i++) {
-          res += parseInt(this.betOrders[i].money) || 0;
+        for (var i = 0; i < this.betOrdersList.length; i++) {
+          if(!this.betOrdersList[i].money){
+            this.$set(this.betOrdersList[i],'money',this.allMoney)
+          }
+          res += parseInt(this.betOrdersList[i].money) || this.allMoney || 0;
         }
-        console.log(res)
+        console.log(res);
         this.ordersMoneyCount = res;
       }
     },
@@ -172,25 +181,36 @@ export default {
         }
       }
       this.saveOrders(res);
+      // todo
     },
 
     //保存注单至VUEX
     saveOrders(res) {
-      for (let item of res) {
-        this.$store.commit("SAVE_CHECKED", {
-          uid: item.play.replace("@", ""),
-          name: item.name,
-          odds: item.odds,
-          desc: item.desc,
-          type: item.type,
-          play: item.play,
-          money: this.betMoney
-        });
-      }
+      this.betOrdersList = res;
+      // for (let item of res) {
+      //   this.$store.commit("SAVE_CHECKED", {
+      //     uid: item.play.replace("@", ""),
+      //     name: item.name,
+      //     odds: item.odds,
+      //     desc: item.desc,
+      //     type: item.type,
+      //     play: item.play,
+      //     money: this.betMoney
+      //   });
+      // }
     },
 
     //全局金额改变
     moneyChanged() {
+      if (this.betOrdersList.length) {
+        var res = 0;
+        for (var i = 0; i < this.betOrdersList.length; i++) {
+            this.$set(this.betOrdersList[i],'money',this.allMoney)
+          res += parseInt(this.betOrdersList[i].money) || this.allMoney || 0;
+        }
+        console.log(res);
+        this.ordersMoneyCount = res;
+      }
       this.$store.commit("SAVE_BET_MONEY", parseInt(this.allMoney) || 0);
       this.$store.commit(
         "CHANGE_ALL_CHECKED_DATA_MONEY",
@@ -200,10 +220,11 @@ export default {
 
     //单注金额修改
     itemMoneyChanged(e, item) {
-      this.$store.commit("BET_ORDERS_MONEY_CHANGE", {
-        uid: item.uid,
-        money: e.target.value
-      });
+      this.getOrdersMoneyCount();
+      // this.$store.commit("BET_ORDERS_MONEY_CHANGE", {
+      //   uid: item.uid,
+      //   money: e.target.value
+      // });
     },
 
     //删除注单
@@ -226,9 +247,9 @@ export default {
       var data = {
         code: this.planData.code,
         bet_type: this.bet_type,
-        orders: this.betOrders
+        orders: this.betOrdersList
       };
-      for (let item of this.betOrders) {
+      for (let item of this.betOrdersList) {
         if (!parseInt(item.money)) {
           this.$vux.alert.show({
             title: "提示",
@@ -251,9 +272,7 @@ export default {
           } else {
             this.$vux.alert.show({
               title: "提示",
-              content: `投注失败，请刷新页面重试，如果重复出现此问题请联系客服处理！<br>[错误码:${
-                res.resCode
-              }][提示:${res.msg}]`
+              content: `投注失败，请刷新页面重试，如果重复出现此问题请联系客服处理！<br>[错误码:${res.resCode}][提示:${res.msg}]`
             });
           }
         })
@@ -266,8 +285,8 @@ export default {
         });
     }
   },
-  watch:{
-    betOrders(){
+  watch: {
+    betOrdersList() {
       this.getOrdersMoneyCount();
     }
   }
@@ -305,20 +324,36 @@ export default {
     bottom: px2rem(118px);
     overflow: auto;
     width: 100%;
-
-    th {
-      color: #999;
-      font-size: px2rem(28px);
+    .orders-table {
+      display: block;
+      width: 100%;
+    }
+    thead,
+    tbody {
+      width: 100%;
+      display: block;
     }
 
-    td {
-      color: #333;
-      font-size: px2rem(26px);
-
-      .orderMoney {
+    tr {
+      display: flex;
+      height: px2rem(80px);
+      line-height: px2rem(80px);
+      border-bottom: 1px solid #e0e0e0;
+      th {
+        flex: 1;
+        color: #999;
+        font-size: px2rem(28px);
+      }
+      td {
+        flex: 1;
+        color: #333;
+        font-size: px2rem(26px);
+        text-align: center;
+        .orderMoney {
         width: px2rem(100px);
         text-align: center;
         border: 1px solid #dedede;
+      }
       }
     }
   }

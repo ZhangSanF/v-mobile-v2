@@ -2,7 +2,7 @@
  * @Author: a.rui 
  * @Date: 2018-09-05 17:26:47 
  * @Last Modified by: a.rui
- * @Last Modified time: 2019-06-20 18:09:23
+ * @Last Modified time: 2019-12-12 17:22:24
  */
 import axios from "./axios";
 import * as urls from "./apiUrl";
@@ -40,6 +40,14 @@ export function homeWithOutCheckLoginInit(params) {
         version:params.version
     });
     return axios.post(urls.homeWithOutCheckLoginInitAPI(), param);
+}
+
+//  首页红包点击
+export function homeChatGetRedPackageTime(params) {
+    let param = Object.assign({}, {
+        red_package_id: params.red_package_id
+    });
+    return axios.post(urls.homeChatGetRedPackageTimeAPI(), param);
 }
 
 // 获取开奖结果
@@ -300,7 +308,16 @@ export function getServiceHallData(params) {
     let param = params
     return axios.post(urls.getServiceHallDataAPI(), param);
 }
-
+// 签到初始化数据
+export function getAttendanceRecord(params) {
+    let param = params
+    return axios.post(urls.getAttendanceRecordAPI(), param);
+}
+//点击签到
+export function homeSigninSign(params) {
+    let param = params
+    return axios.post(urls.homeSigninSignAPI(), param);
+}
 // 获取优惠活动数据
 export function getPromotionHall(params) {
     let param = params
@@ -419,3 +436,140 @@ export function homeWalletDetail(page) {
     return axios.post(urls.homeWalletDetailAPI(), param);
 }
 
+//  修改昵称
+export function homeUserChangeChatNickname(chatNickname) {
+    let param = Object.assign({}, {
+        chat_nickname:chatNickname,
+    });
+    return axios.post(urls.homeUserChangeChatNicknameAPI(), param);
+}
+
+
+
+// **********红包项目**************//
+
+//  发红包接口
+export function redPackGameGameGive(params) {
+    let param = Object.assign({}, {
+        groupId:params.groupId,//游戏群ID
+        count:params.count,//红包数量
+        amount:params.amount,//红包金额
+        content:params.content,//雷区内容
+    });
+    return axios.post(urls.redPackGameGameGiveAPI(), param);
+}
+
+//  抢红包接口
+export function redPackGameGameGrab(recordId) {
+    let param = Object.assign({}, {
+        recordId:recordId //红包ID
+    });
+    return axios.post(urls.redPackGameGameGrabAPI(), param);
+}
+
+//  初始化红包游戏
+export function redPackGameIndexInit() {
+    let param = Object.assign({}, {});
+    return axios.post(urls.redPackGameIndexInitAPI(), param);
+}
+
+//  绑定用户
+export function redPackGameChatRoomBindUser(clientId) {
+    let param = Object.assign({}, {
+        clientId:clientId //open事件返回的client_id
+    });
+    return axios.post(urls.redPackGameChatRoomBindUserAPI(), param);
+}
+
+//  加入房间
+export function redPackGameChatRoomJoinRoom(params) {
+    let param = Object.assign({}, {
+        roomId:params.roomId, //房间号
+        clientId:params.clientId
+    });
+    return axios.post(urls.redPackGameChatRoomJoinRoomAPI(), param);
+}
+
+//  离开房间
+export function redPackGameChatLeaveRoom(params) {
+    let param = Object.assign({}, {
+        roomId:params.roomId, //房间号
+        clientId:params.clientId, //客户id
+    });
+    return axios.post(urls.redPackGameChatLeaveRoomAPI(), param);
+}
+
+//  获取历史聊天记录
+export function redPackGameChatRoomGetChatLog(params) {
+    let param = Object.assign({}, {
+        roomId:params.roomId, //房间号
+        pageSize:params.pageSize,
+        chatId:params.chatId
+    });
+    return axios.post(urls.redPackGameChatRoomGetChatLogAPI(), param);
+}
+
+//  发送消息
+export function redPackGameChatRoomSendMsg(params) {
+    let param = Object.assign({}, {
+        type:params.type, //消息类型
+        roomId:params.roomId, //房间号
+        content:params.content, //消息内容(发送图片时，此字段可不填)
+        clientId:params.clientId //客户id
+    });
+    return axios.post(urls.redPackGameChatRoomSendMsgAPI(), param);
+}
+
+//  获取群信息接口
+export function redPackGameChatInfo(groupId) {
+    let param = Object.assign({}, {
+        groupId:groupId, //群id
+    });
+    return axios.post(urls.redPackGameChatInfoAPI(), param);
+}
+
+//  红包明细接口
+export function redPackGameGameDetail(recordId) {
+    let param = Object.assign({}, {
+        recordId:recordId, //红包id
+    });
+    return axios.post(urls.redPackGameGameDetailAPI(), param);
+}
+
+//  用户列表
+export function redPackGameChatGetUsers(params) {
+    let param = Object.assign({}, {
+        groupId:params.groupId, //房间id
+        page:params.page, //页码
+        pageSize:params.pageSize, //每页数量
+    });
+    return axios.post(urls.redPackGameChatGetUsersAPI(), param);
+}
+
+//  游戏规则接口
+export function redPackGameIndexGameRule() {
+    let param = Object.assign({}, {});
+    return axios.post(urls.redPackGameIndexGameRuleAPI(), param);
+}
+
+//  群详情玩法规则(跳转)
+export function redPackGameJumpRule(params) {
+    let param = Object.assign({}, {
+        gameId:params.gameId, //房间id
+        typeId:params.typeId, //玩法1 规则2
+    });
+    return axios.get(urls.redPackGameJumpRuleAPI(), param);
+}
+
+//  红包历史报表
+export function redPackGameIndexReReport(params) {
+    let param = Object.assign({}, {
+        page:params.page , //页码
+        limit:params.limit, //每页条数，默认20条数据
+        gameType:params.gameType, //游戏类型 参考初始化接口中的 GameType
+        typeId:params.typeId, //抢发包类型 1-代表发包 2-代表发包，默认类型为发包
+        start:params.start, //开始时间  时间格式为YYYY-MM-DD,默认为当天时间
+        end:params.end, //结束时间  时间格式为YYYY-MM-DD,默认为当天时间
+    });
+    return axios.get(urls.redPackGameIndexReReportAPI(), param);
+}

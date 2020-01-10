@@ -20,9 +20,9 @@
           <p class="font-main-color">{{item.name}}</p>
         </div>
       </div>
-    </scroll> -->
+    </scroll>-->
 
-    <div class="tabs tabItemBox" ref="warp" >
+    <div class="tabs tabItemBox" ref="warp">
       <tab :line-width="2" v-model="gameGroupSelected" bar-active-color="transparent">
         <tab-item
           :selected="gameGroupSelected == parseInt(item.id)-1"
@@ -31,18 +31,32 @@
           @click="gameGroupSelected = item.id -1"
           :key="index"
         >{{item.name}}</tab-item>
+        <tab-item
+          :selected="gameGroupSelected == parseInt(3)-1"
+          :active-class="'active'"
+          @click="gameGroupSelected = parseInt(3) -1"
+        >我的关注</tab-item>
       </tab>
     </div>
     <scroll class="wrapper game-content" :data="allDataArray" v-if="allDataArray.length">
       <div class="wrapper-tontent">
-          <games-card
-            v-for="(item, key,index) of openResult"
-            @click.native="toGame(key)"
-            v-show="item.classification && item.classification.indexOf((gameGroupSelected+1)) != -1"
-            :code="key"
-            :info="item"
-            :key="index"
-          ></games-card>
+        <games-card
+          v-for="(item, key,index) of openResult"
+          @click.native="toGame(key)"
+          v-show="item.classification && item.classification.indexOf((gameGroupSelected+1)) != -1"
+          :code="key"
+          :info="item"
+          :key="index"
+        ></games-card>
+
+        <games-card
+          v-for="(item, key,index) of openResult"
+          @click.native="toGame(key)"
+          v-show="loadFollowLotteryListFunc().indexOf(key) !=-1"
+          :code="key"
+          :info="item"
+          :key="index+key"
+        ></games-card>
       </div>
     </scroll>
 
@@ -54,6 +68,7 @@
 import GamesCard from "@/components/common/GamesCard";
 import scroll from "@/components/common/scroll";
 import { GAMES } from "@/config";
+import { loadFollowLotteryList } from "@/methods/cache";
 import { Tab, TabItem, Swiper, SwiperItem, LoadMore } from "vux";
 import { mapState } from "vuex";
 import { constants } from "fs";
@@ -78,6 +93,10 @@ export default {
       this.$store.commit("CHANGE_CODE", e);
       this.$store.dispatch("changeCode", e);
       this.$router.push(`/lottery/${e}/${t}`);
+    },
+
+    loadFollowLotteryListFunc() {
+      return loadFollowLotteryList();
     }
   },
   computed: {
@@ -85,7 +104,7 @@ export default {
     allDataArray() {
       return _.keys(this.openResult);
     }
-  },
+  }
 };
 </script>
 

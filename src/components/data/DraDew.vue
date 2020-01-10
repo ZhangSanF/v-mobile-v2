@@ -52,6 +52,10 @@
   .vux-header {
     background: $public-header-background-color;
   }
+  .dradew {
+    height: 100%;
+    background-color: #fff;
+  }
   .dradew, .tabText {
     font-size: px2rem(24px);
   }

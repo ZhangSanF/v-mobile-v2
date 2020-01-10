@@ -19,16 +19,18 @@
         >
           <p slot="content" class="card-padding">{{item.content}}</p>
         </card>
+        <template v-for="(item, key) in announcement">
         <card
-          :header="{title: (key+1) + '. ' + item.title}"
+          :header="{title: (key+1)+'.'+(index+1) + '. ' + obj.title}"
           v-show="tabIndex == 1"
-          :footer="{title: timestampToTime(item.time)}"
+          :footer="{title: timestampToTime(obj.time)}"
           class="bg-public-deep-bgColor"
-          v-for="(item, key) in announcement"
-          :key="key+'_1'"
+          v-for="(obj, index) in item.data"
+          :key="key+index+'-'+index"
         >
-          <p slot="content" class="card-padding">{{item.content}}</p>
+          <p slot="content" class="card-padding">{{obj.content}}</p>
         </card>
+        </template>
         <p class="noData" v-if="list.length<=0 && tabIndex == 0">暂无消息</p>
         <p class="noData" v-if="announcement.length<=0 && tabIndex == 1">暂无数据</p>
       </div>

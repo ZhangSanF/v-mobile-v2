@@ -3,7 +3,7 @@
  * @Author: a.rui 
  * @Date: 2018-09-05 16:47:30 
  * @Last Modified by: a.rui
- * @Last Modified time: 2019-06-10 15:02:40
+ * @Last Modified time: 2019-12-12 17:21:06
  */
 
 //  初始化 彩种玩法切换 开奖数据、长龙露珠数据获取
@@ -34,6 +34,14 @@ export function homeChatBindAPI(){
 export function homeWithOutCheckLoginInitAPI(){
     return {
         url: `/all/home_WithOutCheck_loginInit`,
+        isOpenLoading: false
+    }
+}
+
+//  首页红包点击
+export function homeChatGetRedPackageTimeAPI(){
+    return {
+        url: `/all/home_Chat_getRedPackageTime`,
         isOpenLoading: false
     }
 }
@@ -263,7 +271,20 @@ export function getServiceHallDataAPI() {
         isOpenLoading: true
     }
 }
-
+//签到初始化数据
+export function getAttendanceRecordAPI() {
+    return {
+        url: `/all/home_signin_getSignInfo`,
+        isOpenLoading: true
+    }
+}
+//点击签到
+export function homeSigninSignAPI() {
+    return {
+        url: `/all/home_signin_sign`,
+        isOpenLoading: true
+    }
+}
 //获取优惠活动数据
 export function getPromotionHallAPI() {
     return {
@@ -384,3 +405,130 @@ export function homeWalletDetailAPI(){
         isOpenLoading: true
     }
 }
+
+//  设置昵称
+export function homeUserChangeChatNicknameAPI(){
+    return {
+        url: `/all/home_User_changeChatNickname`,
+        isOpenLoading: true
+    }
+}
+
+
+
+
+// **********红包项目**************//
+
+//  发红包接口
+export function redPackGameGameGiveAPI(){
+    return {
+        url: `/all/redPackGame_game_give`,
+        isOpenLoading: true
+    }
+}
+
+
+//  抢红包接口
+export function redPackGameGameGrabAPI(){
+    return {
+        url: `/all/redPackGame_game_grab`,
+        isOpenLoading: true
+    }
+}
+
+//  初始化红包游戏
+export function redPackGameIndexInitAPI(){
+    return {
+        url: `/all/redPackGame_index_init`,
+        isOpenLoading: true
+    }
+}
+
+//  绑定用户
+export function redPackGameChatRoomBindUserAPI(){
+    return {
+        url: `/all/redPackGame_Chat_bindUser`,
+        isOpenLoading: true
+    }
+}
+
+//  加入房间
+export function redPackGameChatRoomJoinRoomAPI(){
+    return {
+        url: `/all/redPackGame_Chat_joinRoom`,
+        isOpenLoading: true
+    }
+}
+
+//  离开房间
+export function redPackGameChatLeaveRoomAPI(){
+    return {
+        url: `/all/redPackGame_Chat_leaveRoom`,
+        isOpenLoading: true
+    }
+}
+
+//  获取历史聊天记录
+export function redPackGameChatRoomGetChatLogAPI(){
+    return {
+        url: `/all/redPackGame_Chat_getChatLog`,
+        isOpenLoading: true
+    }
+}
+
+//  发送消息
+export function redPackGameChatRoomSendMsgAPI(){
+    return {
+        url: `/all/redPackGame_Chat_sendMsg`,
+        isOpenLoading: true
+    }
+}
+
+//  获取群信息接口
+export function redPackGameChatInfoAPI(){
+    return {
+        url: `/all/redPackGame_chat_info`,
+        isOpenLoading: true
+    }
+}
+
+//  红包明细接口
+export function redPackGameGameDetailAPI(){
+    return {
+        url: `/all/redPackGame_game_detail`,
+        isOpenLoading: true
+    }
+}
+
+//  用户列表
+export function redPackGameChatGetUsersAPI(){
+    return {
+        url: `/all/redPackGame_Chat_getUsers`,
+        isOpenLoading: true
+    }
+}
+
+//  游戏规则接口
+export function redPackGameIndexGameRuleAPI(){
+    return {
+        url: `/all/redPackGame_index_gameRule`,
+        isOpenLoading: true
+    }
+}
+
+//  群详情玩法规则(跳转)
+export function redPackGameJumpRuleAPI(){
+    return {
+        url: `/all/redPackGame_index_roomsRule`,
+        isOpenLoading: true
+    }
+}
+
+//  红包历史报表
+export function redPackGameIndexReReportAPI(){
+    return {
+        url: `/all/redPackGame_index_reReport`,
+        isOpenLoading: true
+    }
+}
+

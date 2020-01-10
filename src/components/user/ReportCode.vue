@@ -2,7 +2,7 @@
   <div class="repostDate">
     <x-header :left-options="{backText: '',preventGoBack: true,}" @on-click-back="backToReportDate" class="public-header-background-color public-header-boxShadow">
       历史报表
-      <span class="icon-con" @click="toHome"><i class="iconfont icon-home1">&#xe620;</i></span>
+      <span class="icon-con" @click="toHome"><i class="iconfont icon-fanhuishouye"></i></span>
     </x-header>
     <div class="container">
       <h5 class="font-light-color">{{date}} 报表，点击可查看单彩种详细注单</h5>

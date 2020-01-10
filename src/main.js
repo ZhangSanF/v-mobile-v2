@@ -39,7 +39,7 @@ Vue.prototype.convertImgPath = (num)=>{
 };
 
 
-import  { AlertPlugin, ToastPlugin, ConfirmPlugin, LoadingPlugin   } from 'vux'
+import  { AlertPlugin, ToastPlugin, ConfirmPlugin, LoadingPlugin,Group , Cell ,XButton   } from 'vux'
 Vue.use(AlertPlugin);
 Vue.use(ToastPlugin);
 Vue.use(ConfirmPlugin);
@@ -49,9 +49,11 @@ Vue.use(_);
 Vue.use(VueClipboard);
 
 
+Vue.component('x-button', XButton)
+Vue.component('group', Group)
+Vue.component('cell', Cell)
 import '@/assets/css/reset.scss'
 import '@/assets/css/icon/iconfont.css'
-// import '@/assets/css/iconfont/iconfont.css'
 import '@/assets/css/common.css'
 import '@/assets/css/animate.min.css'
 

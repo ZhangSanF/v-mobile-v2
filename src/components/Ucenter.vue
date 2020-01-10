@@ -4,7 +4,7 @@
       <div class="userhead">
         <div class="info">
           <div class="avatar">
-            <img class="avatar" :src="avatarImgUrl || defaultAvataUrl" alt @click="editAvatar">
+            <img class="avatar" :src="avatarImgUrl || defaultAvataUrl" alt @click="editAvatar" />
             <div class="infoBox">
               <span @click="toLogin" v-if="!user.username">请登录</span>
               <span v-else>{{user.username == 'guest' ? '游客' : user.username}}</span>
@@ -12,9 +12,28 @@
             </div>
           </div>
         </div>
-
         <div class="card">
+          <div class="amountInfo">
+            <div>
+              <p>今日存款</p>
+              <p>{{user.today_deposit || 0}}</p>
+            </div>
+            <div>
+              <p>今日盈利</p>
+              <p>{{user.today_winlose || 0}}</p>
+            </div>
+            <div>
+              <p>今日提款</p>
+              <p>{{user.today_withdraw || 0}}</p>
+            </div>
+          </div>
           <div class="pay">
+            <a @click="toPage('/SignIn')" v-if="sign_data && sign_data.is_show_sign==1">
+              <span class="iconcon iconcon-left">
+                <i class="icon iconfont icon-qiandao"></i>
+              </span>
+              <span>签到</span>
+            </a>
             <a @click="toPage('/money/pay')">
               <span class="iconcon iconcon-left">
                 <i class="icon iconfont icon-Recharge_selectedl"></i>
@@ -35,7 +54,7 @@
             </a>
             <a @click="toPage('/money/MoneyCenter', 0)">
               <span class="iconcon iconcon-right">
-                <i class="icon iconfont icon-qianbao-"></i>
+                <i class="icon iconfont icon-zhanghuxinxi_default"></i>
               </span>
               <span>钱包中心</span>
             </a>
@@ -54,8 +73,7 @@
           </div>
           <div class="title" @click="toPage('/money/card',0)">
             <span class="iconcon iconcon-3">
-<!--              <i class="icon iconfont icon-yinhangka_default"></i>-->
-              <span class="iconfont icon icon-yinhangka_default">&#xe63d;</span>
+              <span class="iconfont icon icon-yinhangka_default"></span>
             </span>
 
             <span class="userInfo">银行卡</span>
@@ -68,7 +86,7 @@
             <span class="userInfo">账户信息</span>
             <x-icon type="ios-arrow-right" class="arrow-right"></x-icon>
           </div>
-          <div class="title"  @click="toPage('/user/setting', 1)">
+          <div class="title" @click="toPage('/user/setting', 1)">
             <span class="iconcon iconcon-3">
               <i class="icon iconfont icon-shezhi_default"></i>
             </span>
@@ -112,7 +130,7 @@
       @change="imgChanged"
       accept=".jpg, .png, .gif, .jpeg, image/jpeg, image/png, image/gif"
       style="display: none;"
-    >
+    />
   </div>
 </template>
 
@@ -137,9 +155,10 @@ export default {
       loadingText: "加载中",
       avadaUrl: "",
       avatarImgUrl: "",
-      defaultAvataUrl: require("../assets/images/chat/default_avatar.png")
+      defaultAvataUrl: require("../assets/images/chat/default_avatar.png"),
     };
   },
+ 
   mounted() {
     setTimeout(() => {
       this.$emit("tabsChange", "ucenter");
@@ -148,17 +167,17 @@ export default {
       } else {
         this.avatarImgUrl = this.user.chat_headerimg;
       }
+      this.userInit();
     }, 20);
   },
   methods: {
-    ...mapActions(["homeIndexInit", "homeUserUploadChatHeaderImg"]),
-
+    ...mapActions(["homeIndexInit", "homeUserUploadChatHeaderImg", "userInit"]),
     toLogin() {
       this.$router.push("/login");
     },
 
     userName(name) {
-      return name == 'guest' ? '游客' : name;
+      return name == "guest" ? "游客" : name;
     },
 
     toPage(e, a) {
@@ -276,7 +295,6 @@ export default {
         });
     },
     dataURItoBlob(dataURI) {
-      debugger
       var byteString = atob(dataURI.split(",")[1]);
       var mimeString = dataURI
         .split(",")[0]
@@ -294,8 +312,8 @@ export default {
     }
   },
   computed: {
-    ...mapState(["user", "outLink"]),
-    ...mapGetters(["baseInfo"])
+    ...mapState(["user", "outLink","baseInfo"]),
+    ...mapGetters(["baseInfo","sign_data"])
   }
 };
 </script>
@@ -391,14 +409,36 @@ export default {
 
   .card {
     background-color: #fff;
-    margin-top: px2rem(68px);
+    margin-top: px2rem(38px);
     position: relative;
-    height: px2rem(182px);
     z-index: 11;
     border-radius: px2rem(10px);
     overflow: hidden;
-    padding: 0 px2rem(20px);
+    padding: px2rem(20px) px2rem(20px);
     color: #333333;
+    .amountInfo {
+      font-size: px2rem(24px);
+      display: flex;
+      border-bottom: 1px solid #eee;
+      padding-bottom: px2rem(10px);
+      margin-bottom: px2rem(10px);
+      div {
+        flex: 1;
+        text-align: center;
+        width: 33.3%;
+        padding: px2rem(10px);
+        border-radius: px2rem(8px);
+        p {
+          width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          &:nth-of-type(2) {
+            color: #ff7e4e;
+            font-weight: bold;
+          }
+        }
+      }
+    }
     .balance {
       padding: px2rem(10px) 0;
       display: flex;
@@ -449,7 +489,6 @@ export default {
             font-size: px2rem(48px);
             color: #51a4fb;
           }
-
         }
       }
     }
@@ -459,7 +498,7 @@ export default {
 .content {
   width: 98%;
   margin-left: 1%;
-  margin-top: px2rem(110px);
+  margin-top: px2rem(190px);
   margin-bottom: px2rem(110px);
   .iconcon {
     width: px2rem(26px);
@@ -501,13 +540,13 @@ export default {
       .iconcon {
         color: #51a4fb;
         margin-right: px2rem(30px);
-        i{
+        i {
           font-size: px2rem(38px);
         }
         .icon-yinhangka_default {
-            zoom: 1.2;
-            color: #51a4fb;
-          }
+          zoom: 1.2;
+          color: #51a4fb;
+        }
       }
     }
   }

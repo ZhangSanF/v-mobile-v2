@@ -2,6 +2,7 @@ import Vue from 'vue'
 import axios from 'axios'
 import { GAMES } from '@/config'
 import * as api from '@/api/api'
+import { debug } from 'util';
 
 const actions = {
   // 初始化 彩种玩法切换 开奖数据、长龙露珠数据获取
@@ -17,6 +18,7 @@ const actions = {
           resolve(res);
           if (res.resCode === 1000) {
             if (res.data.publicInfo.games) commit('SAVE_GAMES', { data: res.data.publicInfo.games }); //保存后台开放的彩种
+            if (res.data.publicInfo.sign_data) commit('SAVE_SIGN_DATA',  res.data.publicInfo.sign_data ); //保存登录信息
             if (res.data.userInfo) commit('SAVE_USER_INFO', { data: res.data.userInfo }); //保存用户信息
           } else {
             console.log('未登录');
@@ -38,6 +40,13 @@ const actions = {
           resolve(res);
           if (res.resCode === 1000) {
             var data = res.data;
+            if(data.baseInfo.ssc_display){
+              let ssc_display = window.localStorage.getItem('ssc_display');
+              if(ssc_display != data.baseInfo.ssc_display){
+                window.localStorage.setItem('ssc_display',data.baseInfo.ssc_display);
+                window.window.location.reload();
+              }
+            }
             if (data.announcement) commit('SAVE_ANNOUNCEMENT', data.announcement);
             if (data.games) {
               var games = _.keys(data.games);
@@ -67,11 +76,20 @@ const actions = {
                 commit('SAVE_WS_LINK', data.links.ws);
               }
             }
+            if(data.redbagData) {
+              commit("SAVE_RED_PACKAGE_HOME_MSG", data.redbagData );
+            }
           }
         })
     });
 
   },
+
+  //首页红包点击
+  homeChatGetRedPackageTime({ commit, state }, params) {
+    return api.homeChatGetRedPackageTime(params);
+  },
+
   // 绑定websocket用户ID
   homeChatBind({ commit, state }, params) {
     return api.homeChatBind(params);
@@ -227,7 +245,9 @@ const actions = {
   userInit({ commit, state, dispatch }, a) {
     dispatch('homeIndexInit', { actions: 'userInfo' })
       .then((res) => {
-        if (res.data.userInfo) commit('SAVE_USER_INFO', { data: res.data.userInfo }); //保存用户信息
+        if(res.resCode == 1000){
+          if (res.data.userInfo) commit('SAVE_USER_INFO', { data: res.data.userInfo }); //保存用户信息
+        }
       });
   },
   // 请求中奖注单
@@ -249,6 +269,14 @@ const actions = {
   //获取服务大厅数据
   getServiceHallData({ commit, state }, params) {
     return api.getServiceHallData(params);
+  },
+  //签到初始化数据
+  getAttendanceRecord({ commit, state }, params) {
+    return api.getAttendanceRecord(params);
+  },
+  //点击签到
+  homeSigninSign({ commit, state }, params) {
+    return api.homeSigninSign(params);
   },
   //获取优惠活动数据
   getPromotionHall({ commit, state }, params) {
@@ -298,7 +326,7 @@ const actions = {
     return api.getSuggestionSuggest(params);
   },
 
-    // 提交回电
+  // 提交回电
   getCallback({ commit, state }, params) {
     return api.getCallback(params);
   },
@@ -328,11 +356,99 @@ const actions = {
     return api.homeWalletDetail(status);
   },
 
+  // 修改昵称
+  homeUserChangeChatNickname({ commit, state }, chatNickname) {
+    return api.homeUserChangeChatNickname(chatNickname);
+  },
 
 
 
+  // **********红包项目**************//
 
+  // 发红包接口
+  redPackGameGameGive({ commit, state }, params) {
+    return api.redPackGameGameGive(params);
+  },
 
+  // 抢红包接口
+  redPackGameGameGrab({ commit, state }, recordId) {
+    return api.redPackGameGameGrab(recordId);
+  },
+
+  // 初始化红包游戏
+  redPackGameIndexInit({ commit, state }) {
+    return new Promise((resolve, reject) => {
+      api.redPackGameIndexInit().then(res => {
+        resolve(res);
+        if (res.resCode == 1000) {
+          commit('SET_RED_PACK_GAME_BASE_INFO', res.data);
+        }
+      });
+    })
+
+  },
+
+  // 绑定用户
+  redPackGameChatRoomBindUser({ commit, state }, clientId) {
+    return api.redPackGameChatRoomBindUser(clientId);
+  },
+
+  // 加入房间
+  redPackGameChatRoomJoinRoom({ commit, state }, roomId) {
+    return api.redPackGameChatRoomJoinRoom(roomId);
+  },
+
+  // 离开房间
+  redPackGameChatLeaveRoom({ commit, state }, roomId) {
+    return api.redPackGameChatLeaveRoom(roomId);
+  },
+
+  // 获取历史聊天记录
+  redPackGameChatRoomGetChatLog({ commit, state }, roomId) {
+    return api.redPackGameChatRoomGetChatLog(roomId);
+  },
+
+  // 发送消息
+  redPackGameChatRoomSendMsg({ commit, state }, params) {
+    return api.redPackGameChatRoomSendMsg(params);
+  },
+
+  // 获取群信息接口
+  redPackGameChatInfo({ commit, state }, groupId) {
+    return api.redPackGameChatInfo(groupId);
+  },
+
+  // 红包明细接口
+  redPackGameGameDetail({ commit, state }, recordId) {
+    return api.redPackGameGameDetail(recordId);
+  },
+
+  // 用户列表
+  redPackGameChatGetUsers({ commit, state }, recordId) {
+    return api.redPackGameChatGetUsers(recordId);
+  },
+
+  // 游戏规则接口
+  redPackGameIndexGameRule({ commit, state }) {
+    return new Promise((resolve, reject) => {
+      api.redPackGameIndexGameRule().then(res => {
+        resolve(res);
+        if (res.resCode == 1000) {
+          commit('SET_RED_PACK_GAME_RULE', res.data);
+        }
+      });
+    })
+  },
+
+  // 群详情玩法规则(跳转)
+  redPackGameJumpRule({ commit, state }, params) {
+    return api.redPackGameJumpRule(params);
+  },
+
+  // 红包历史报表
+  redPackGameIndexReReport({ commit, state }, params) {
+    return api.redPackGameIndexReReport(params);
+  },
 };
 
 export default actions;

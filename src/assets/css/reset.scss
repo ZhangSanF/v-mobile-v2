@@ -37,3 +37,147 @@ caption {
 }
 
 
+
+
+
+.Emoji {
+  display: inline-block;
+  width: px2rem(50px);
+  height: px2rem(50px);
+  cursor: pointer;
+  background: url(../images/chat/emoji@2x.png) no-repeat;
+  background-size: px2rem(50px) auto;
+}
+
+.Emoji.emoji-smile {
+  background-position: 0 0;
+}
+
+.Emoji.emoji-laughing {
+  background-position: 0 px2rem(50px, false);
+}
+
+.Emoji.emoji-blush {
+  background-position: 0 px2rem(100px, false);
+}
+
+.Emoji.emoji-heart_eyes {
+  background-position: 0 px2rem(150px, false);
+}
+
+.Emoji.emoji-smirk {
+  background-position: 0 px2rem(200px, false);
+}
+
+.Emoji.emoji-flushed {
+  background-position: 0 px2rem(250px, false);
+}
+
+.Emoji.emoji-grin {
+  background-position: 0 px2rem(300px, false);
+}
+
+.Emoji.emoji-kissing_smiling_eyes {
+  background-position: 0 px2rem(350px, false);
+}
+
+.Emoji.emoji-wink {
+  background-position: 0 px2rem(400px, false);
+}
+
+.Emoji.emoji-kissing_closed_eyes {
+  background-position: 0 px2rem(450px, false);
+}
+
+.Emoji.emoji-stuck_out_tongue_winking_eye {
+  background-position: 0 px2rem(500px, false);
+}
+
+.Emoji.emoji-sleeping {
+  background-position: 0 px2rem(550px, false);
+}
+
+.Emoji.emoji-worried {
+  background-position: 0 px2rem(600px, false);
+}
+
+.Emoji.emoji-sweat_smile {
+  background-position: 0 px2rem(650px, false);
+}
+
+.Emoji.emoji-cold_sweat {
+  background-position: 0 px2rem(700px, false);
+}
+
+.Emoji.emoji-joy {
+  background-position: 0 px2rem(750px, false);
+}
+
+.Emoji.emoji-sob {
+  background-position: 0 px2rem(800px, false);
+}
+
+.Emoji.emoji-angry {
+  background-position: 0 px2rem(850px, false);
+}
+
+.Emoji.emoji-mask {
+  background-position: 0 px2rem(900px, false);
+}
+
+.Emoji.emoji-scream {
+  background-position: 0 px2rem(950px, false);
+}
+
+.Emoji.emoji-sunglasses {
+  background-position: 0 px2rem(1000px, false);
+}
+
+.Emoji.emoji-thumbsup {
+  background-position: 0 px2rem(1050px, false);
+}
+
+.Emoji.emoji-clap {
+  background-position: 0 px2rem(1100px, false);
+}
+
+.Emoji.emoji-ok_hand {
+  background-position: 0 px2rem(1150px, false);
+}
+.Emoji.emoji-del {
+  background-image: url("../images/redPackGame/rc_icon_emoji_delete.png");
+}
+
+.cow0 {
+  background-image: url("../images/redPackGame/ic_cow_0.png");
+}
+.cow1 {
+  background-image: url("../images/redPackGame/ic_cow_1.png");
+}
+.cow2 {
+  background-image: url("../images/redPackGame/ic_cow_2.png");
+}
+.cow3 {
+  background-image: url("../images/redPackGame/ic_cow_3.png");
+}
+.cow4 {
+  background-image: url("../images/redPackGame/ic_cow_4.png");
+}
+.cow5 {
+  background-image: url("../images/redPackGame/ic_cow_5.png");
+}
+.cow6 {
+  background-image: url("../images/redPackGame/ic_cow_6.png");
+}
+.cow7 {
+  background-image: url("../images/redPackGame/ic_cow_7.png");
+}
+.cow8 {
+  background-image: url("../images/redPackGame/ic_cow_8.png");
+}
+.cow9 {
+  background-image: url("../images/redPackGame/ic_cow_9.png");
+}
+.cow10 {
+  background-image: url("../images/redPackGame/ic_cow_10.png");
+}

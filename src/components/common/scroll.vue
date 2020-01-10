@@ -124,7 +124,7 @@ import { constants } from 'fs';
           console.log(this.scroll.y)
           this.scroll.on('scrollEnd', () => {
             // 滚动到底部
-            if (this.pullup && this.scroll.y <= (this.scroll.maxScrollY + 50) || this.type == 'ani') {
+            if (this.pullup && this.scroll.y <= (this.scroll.maxScrollY + 50) || this.type == 'ani' || this.type == 'onlyEnd') {
               this.$emit('scrollToEnd',this.scroll.y)
             }
           })

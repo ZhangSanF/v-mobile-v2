@@ -28,6 +28,7 @@ try{
 const store = new Vuex.Store({
   state: {
     baseInfo:{},
+    sign_data:{},
     settingImages:{},
     code: code,
     play: play,
@@ -75,7 +76,12 @@ const store = new Vuex.Store({
       status: 1,
       name: '开元棋牌'
     },
-    isRsfreshOpenListData:false
+    isRsfreshOpenListData:false,
+    redPackageHomeMsg: {},//首页红包数据
+    redPackGameBaseInfo:{},
+    redPackGameClientId:'',//红包websocket cilentid
+    redPackGameRule:'',//游戏规则
+    chearRedPackMsgArr:[]
   },
   mutations: mutations,
   actions: actions,

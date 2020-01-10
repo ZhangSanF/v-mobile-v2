@@ -17,6 +17,13 @@
           <span class="userInfo">修改取款密码</span>
           <x-icon type="ios-arrow-right" class="arrow-right"></x-icon>
         </div>
+        <div class="title" @click="toPage('/user/SetNickname', 1)">
+          <span class="iconcon iconcon-3">
+            <i class="icon iconfont icon-yonghuming"></i>
+          </span>
+          <span class="userInfo">设置昵称</span>
+          <x-icon type="ios-arrow-right" class="arrow-right"></x-icon>
+        </div>
       </div>
       <div class="seting">
         <div class="title" @click="clearStorage">

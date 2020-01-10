@@ -1,9 +1,10 @@
 import Vue from 'vue'
-import {GAMES, hk6Games} from '@/config'
-import {isInArray} from '@/methods'
-import {stat} from 'fs';
+import { GAMES, hk6Games } from '@/config'
+import { isInArray } from '@/methods'
+import { stat } from 'fs';
 import { debug } from 'util';
 
+const ADD_CHAT_REDPACK_MSG = 'ADD_CHAT_REDPACK_MSG';
 const SAVE_GAMES = 'SAVE_GAMES'; //保存后台开放的彩种
 const SAVE_LINK = 'SAVE_LINK'; //保存外部链接
 const CHANGE_CODE = 'CHANGE_CODE'; //彩种切换
@@ -36,6 +37,9 @@ const SAVE_SETTING_IMSGES = 'SAVE_SETTING_IMSGES' //轮播图以及logo
 const SAVE_CLASSIFICATION = 'SAVE_CLASSIFICATION' //彩种分类
 const SAVE_LXB_DATA = 'SAVE_LXB_DATA' //利息宝数据
 const SET_IS_REFRESH_OPEN_LIST_DATA = 'SET_IS_REFRESH_OPEN_LIST_DATA'
+const SAVE_RED_PACKAGE_HOME_MSG = 'SAVE_RED_PACKAGE_HOME_MSG' //首页红包数据
+
+const SAVE_SIGN_DATA = 'SAVE_SIGN_DATA'
 
 //聊天室
 const SAVE_USER_CHATID = 'SAVE_USER_CHATID' //用户聊天室ID
@@ -52,6 +56,11 @@ const CHANGE_CLOSED = 'CHANGE_CLOSED' //封盘开盘状态更改
 const SAVE_NS_INFO = 'SAVE_NS_INFO' // 未结彩种code数组 开奖请求用
 const FORECATST_RANKING = 'FORECATST_RANKING' //计划数据
 const FORECATST_RANKING_CLEAN = 'FORECATST_RANKING_CLEAN' //清空计划列表
+
+// 红包游戏
+const SET_RED_PACK_GAME_BASE_INFO = 'SET_RED_PACK_GAME_BASE_INFO'; //初始化数据
+const SET_RED_PACK_GAME_CLIENTID = 'SET_RED_PACK_GAME_CLIENTID'; //红包websocket cilentid
+const SET_RED_PACK_GAME_RULE = 'SET_RED_PACK_GAME_RULE'; //游戏规则
 
 // pk10删除选中状态
 const pk10DelSelect = (state, play, a) => {
@@ -104,7 +113,7 @@ const mutations = {
       return;
       // Vue.set(state.openResult, a.code, {})
     }
-    if(a.code == state.code && state.openResult[state.code].openPhase != d.open_phase){
+    if (a.code == state.code && state.openResult[state.code].openPhase != d.open_phase) {
       state.isRsfreshOpenListData = true;
     }
     Vue.set(state.openResult[a.code], 'openPhase', d.open_phase);
@@ -113,10 +122,13 @@ const mutations = {
     if (isInArray(a.code, hk6Games) && d.zodiac) {
       Vue.set(state.openResult[a.code], 'zodiac', d.zodiac);
     }
-    
+
   },
-  [SET_IS_REFRESH_OPEN_LIST_DATA](state,flag){
+  [SET_IS_REFRESH_OPEN_LIST_DATA](state, flag) {
     state.isRsfreshOpenListData = flag;
+  },
+  [SAVE_RED_PACKAGE_HOME_MSG](state,data) {
+    state.redPackageHomeMsg = data
   },
   [SAVE_TIME_INFO](state, a) {
     var d = a.data;
@@ -176,6 +188,7 @@ const mutations = {
   },
   [SAVE_CHECKED](state, a) {
     Vue.set(state.checkedData, a.uid, a);
+    console.log(state.checkedData)
     if (GAMES[state.code].class == 'bjpk10') {
       if (!state.checkedDataKeys[state.play]) {
         Vue.set(state.checkedDataKeys, state.play, []);
@@ -186,12 +199,12 @@ const mutations = {
     }
   },
   [CHANGE_ALL_CHECKED_DATA_MONEY](state, a) {
-    for(let k in state.checkedData){
+    for (let k in state.checkedData) {
       Vue.set(state.checkedData[k], 'money', a);
     }
   },
   [BET_ORDERS_MONEY_CHANGE](state, a) {
-    if(state.checkedData[a.uid]){
+    if (state.checkedData[a.uid]) {
       Vue.set(state.checkedData[a.uid], 'money', a.money);
     }
   },
@@ -297,8 +310,49 @@ const mutations = {
     state.forecastRanking = [];
   },
   // 利息宝数据
-  [SAVE_LXB_DATA](state,obj) {
+  [SAVE_LXB_DATA](state, obj) {
     state.lxbDatas = obj || {};
+  },
+  // **********红包游戏*************//
+  [SET_RED_PACK_GAME_BASE_INFO](state, obj) {
+    state.redPackGameBaseInfo = obj || {};
+  },
+  // 红包websocket cilentid
+  [SET_RED_PACK_GAME_CLIENTID](state, str) {
+    state.redPackGameClientId = str;
+  },
+
+  // 保存登录信息
+  [SAVE_SIGN_DATA](state, obj) {
+    state.sign_data = obj;
+  },
+
+  
+  // 游戏规则
+  [SET_RED_PACK_GAME_RULE](state, arr) {
+    state.redPackGameRule = arr;
+  },
+  // 新增聊天室红包通知
+
+  [ADD_CHAT_REDPACK_MSG](state, obj) {
+    Vue.set(obj, 'isShow', true);
+    Vue.set(obj, 'isShowAni', true);
+    state.chearRedPackMsgArr.push(obj);
+    let runFun = function (item) {
+      let _runDel2 = function (item) {
+        setTimeout(() => {
+          Vue.set(item, 'isShowAni', false);
+          setTimeout(() => {
+            Vue.set(item, 'isShow', false);
+            setTimeout(() => {
+              state.chearRedPackMsgArr.shift();
+            }, 5000);
+          }, 500);
+        }, 5000);
+      }
+      _runDel2(item)
+    }
+    runFun(obj)
   }
 };
 
